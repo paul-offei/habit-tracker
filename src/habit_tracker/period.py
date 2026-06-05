@@ -8,7 +8,7 @@ to determine if a habit was completed within its required window.
 
 import calendar
 from enum import Enum
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 
 
 class Periodicity(str, Enum):
