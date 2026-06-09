@@ -13,6 +13,7 @@ from pydantic import ValidationError
 
 from habit_tracker.habit import Habit
 from habit_tracker.period import Periodicity
+from habit_tracker.status import HabitStatus
 
 
 # Table-driven test data using the provided catalog examples
@@ -113,3 +114,20 @@ def test_habit_functional_update():
     assert original_habit.id == updated_habit.id  # The entity identity remains the same
 
 
+def test_habit_defaults_to_active():
+    """Ensures new habits are active by default."""
+    habit = Habit(name="Read", periodicity=Periodicity.DAILY)
+    assert habit.status == HabitStatus.ACTIVE
+
+def test_habit_status_transition():
+    """
+    Demonstrates the correct functional approach to pausing a habit.
+    """
+    original_habit = Habit(name="Run", periodicity=Periodicity.DAILY)
+    
+    # User clicks 'pause' on the UI
+    paused_habit = original_habit.model_copy(update={"status": HabitStatus.PAUSED})
+    
+    assert original_habit.status == HabitStatus.ACTIVE
+    assert paused_habit.status == HabitStatus.PAUSED
+    assert original_habit.id == paused_habit.id
