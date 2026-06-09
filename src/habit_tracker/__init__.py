@@ -1,2 +1,4 @@
+from habit_tracker.cli import app
+
 def main() -> None:
-    print("Hello from habit-tracker!")
+    app()
